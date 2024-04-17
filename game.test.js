@@ -1,8 +1,18 @@
 const {Game} = require('./game')
 
-describe('game tests', () => {
-    test('first test', () => {
+describe('Tests for our cool game', () => {
+    it('init test', () => {
         const game = new Game()
-        expect(game.test()).toBe('start game')
+
+        game.settings={
+            gridSize: {
+                columns: 4,
+                rows: 5
+            }
+        }
+
+        expect(game.settings.gridSize.columns).toBe(4)
+        expect(game.settings.gridSize.rows).toBe(5)
     })
+
 })
