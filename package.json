@@ -1,0 +1,15 @@
+{
+  "name": "vanilla_game",
+  "version": "1.0.0",
+  "description": "my native JS game!!!",
+  "main": "game.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "Vanilla_Game"
+  },
+  "author": "Samurai",
+  "license": "ISC"
+}
