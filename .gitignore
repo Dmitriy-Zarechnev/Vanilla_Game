@@ -1,7 +1,13 @@
 # Default ignored files
 /shelf/
-/workspace.xml
+/.idea/workspace.xml
 # Editor-based HTTP Client requests
 /httpRequests/
 
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# idea
 /.idea
