@@ -1,9 +1,20 @@
 const {Game} = require('./game')
 
-describe('Tests for our cool game', () => {
+let game
+
+beforeEach(() => {
+    game = new Game()
+    game.settings = {
+        gridSize: {
+            columns: 1,
+            rows: 3
+        }
+    }
+})
+
+describe('Tests for our cool game 😎', () => {
     // -------------------------------------------------
     it('init test', () => {
-        const game = new Game()
 
         game.settings = {
             gridSize: {
@@ -11,20 +22,13 @@ describe('Tests for our cool game', () => {
                 rows: 5
             }
         }
+
         expect(game.settings.gridSize.columns).toBe(4)
         expect(game.settings.gridSize.rows).toBe(5)
     })
 
     // -------------------------------------------------
     it('start game function', async () => {
-        const game = new Game()
-
-        game.settings = {
-            gridSize: {
-                columns: 1,
-                rows: 3
-            }
-        }
 
         expect(game.status).toBe('pending')
         // game start
@@ -37,14 +41,7 @@ describe('Tests for our cool game', () => {
     it('check players start position', async () => {
 
         for (let i = 0; i < 10; i++) {
-            const game = new Game()
 
-            game.settings = {
-                gridSize: {
-                    columns: 1,
-                    rows: 3
-                }
-            }
             // game start
             await game.start()
 
