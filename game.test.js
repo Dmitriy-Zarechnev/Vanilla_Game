@@ -1,19 +1,24 @@
 const {Game} = require('./game')
 
-let game
-
-beforeEach(() => {
-    game = new Game()
-    game.settings = {
-        gridSize: {
-            columns: 1,
-            rows: 3
-        },
-        googleJumpInterval: 100
-    }
-})
 
 describe('Tests for our cool game 😎', () => {
+    let game
+
+    beforeEach(() => {
+        game = new Game()
+        game.settings = {
+            gridSize: {
+                columns: 1,
+                rows: 3
+            },
+            googleJumpInterval: 100
+        }
+    })
+
+    afterEach(async () => {
+        await game.stop()
+    })
+
     // -------------------------------------------------
     it('init test', () => {
 
@@ -69,6 +74,14 @@ describe('Tests for our cool game 😎', () => {
 
     // -------------------------------------------------
     it('check google position after jump', async () => {
+        game.settings = {
+            gridSize: {
+                columns: 1,
+                rows: 4
+            },
+            googleJumpInterval: 100
+        }
+
         // game start
         await game.start()
 

@@ -7,11 +7,13 @@ class Game {
         googleJumpInterval: 2000
     }
     #status = 'pending'
+    #googleSetIntervalId
 
     // List of units
     #player1
     #player2
     #google
+
 
     constructor() {
     }
@@ -38,8 +40,7 @@ class Game {
         const player2Position = this.#getRandomPosition([player1Position])
         this.#player2 = new Player(2, player2Position)
 
-        const googlePosition = this.#getRandomPosition([player1Position, player2Position])
-        this.#google = new Google(googlePosition)
+        this.#moveGoogleToRandomPosition(true)
     }
 
     // Run game
@@ -47,7 +48,35 @@ class Game {
         if (this.#status === 'pending') {
             this.#createUnits()
             this.#status = 'in-process'
+
+            this.#runGoogleJumpInterval()
         }
+    }
+
+    // Stop game
+    async stop() {
+        clearInterval(this.#googleSetIntervalId)
+        this.#status = 'finished'
+    }
+
+    // Check and create new position for Google
+    #moveGoogleToRandomPosition(excludeGoogle) {
+        let notCrossedPosition = [this.#player1.position, this.#player2.position]
+
+        // Add new position into array
+        if (!excludeGoogle) {
+            notCrossedPosition.push(this.#google.position)
+        }
+
+        // Create new Google position
+        this.#google = new Google(this.#getRandomPosition(notCrossedPosition))
+    }
+
+    // Interval for changing google position
+    #runGoogleJumpInterval() {
+        this.#googleSetIntervalId = setInterval(() => {
+            this.#moveGoogleToRandomPosition()
+        }, this.#settings.googleJumpInterval)
     }
 
     // ------ Setters -------
@@ -55,11 +84,11 @@ class Game {
         this.#settings = settings
     }
 
+    // ------ Getters -------
     get settings() {
         return this.#settings
     }
 
-    // ------ Getters -------
     get status() {
         return this.#status
     }
