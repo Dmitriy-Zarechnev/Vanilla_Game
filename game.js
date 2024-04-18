@@ -2,26 +2,39 @@ class Game {
     #settings
     #status = 'pending'
 
-    // List of players
+    // List of units
     #player1
     #player2
+    #google
 
     constructor() {
-
     }
 
-    #createPlayers() {
-        const player1Position = new Position(
-            NumberUtils.getRandomNumber(this.#settings.gridSize.columns),
-            NumberUtils.getRandomNumber(this.#settings.gridSize.rows))
+    #getRandomPosition(coordinates) {
+        let newX, newY
+
+        do {
+            newX = NumberUtils.getRandomNumber(this.#settings.gridSize.columns)
+            newY = NumberUtils.getRandomNumber(this.#settings.gridSize.rows)
+        } while (coordinates.some(el => el.x === newX && el.y === newY))
+
+        return new Position(newX, newY)
+    }
+
+    #createUnits() {
+        const player1Position = this.#getRandomPosition([])
         this.#player1 = new Player(1, player1Position)
-        const player2Position = new Position(1, 2)
+
+        const player2Position = this.#getRandomPosition([player1Position])
         this.#player2 = new Player(2, player2Position)
+
+        const googlePosition = this.#getRandomPosition([player1Position, player2Position])
+        this.#google = new Google(googlePosition)
     }
 
     async start() {
         if (this.#status === 'pending') {
-            this.#createPlayers()
+            this.#createUnits()
             this.#status = 'in-process'
         }
     }
@@ -46,6 +59,10 @@ class Game {
     get player2() {
         return this.#player2
     }
+
+    get google() {
+        return this.#google
+    }
 }
 
 class Position {
@@ -55,10 +72,22 @@ class Position {
     }
 }
 
-class Player {
-    constructor(id, position) {
-        this.id = id
+class Unit {
+    constructor(position) {
         this.position = position
+    }
+}
+
+class Player extends Unit {
+    constructor(id, position) {
+        super(position)
+        this.id = id
+    }
+}
+
+class Google extends Unit {
+    constructor(position) {
+        super(position)
     }
 }
 
