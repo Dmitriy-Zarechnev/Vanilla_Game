@@ -10,17 +10,21 @@ class Game {
     constructor() {
     }
 
+    // Generate new random coordinates
     #getRandomPosition(coordinates) {
         let newX, newY
 
+        // Generate newX and newY until they become different
         do {
             newX = NumberUtils.getRandomNumber(this.#settings.gridSize.columns)
             newY = NumberUtils.getRandomNumber(this.#settings.gridSize.rows)
         } while (coordinates.some(el => el.x === newX && el.y === newY))
 
+        // Return new Position Class instance
         return new Position(newX, newY)
     }
 
+    // Create units for our game
     #createUnits() {
         const player1Position = this.#getRandomPosition([])
         this.#player1 = new Player(1, player1Position)
@@ -32,6 +36,7 @@ class Game {
         this.#google = new Google(googlePosition)
     }
 
+    // Run game
     async start() {
         if (this.#status === 'pending') {
             this.#createUnits()
@@ -39,7 +44,7 @@ class Game {
         }
     }
 
-
+    // ------ Setters -------
     set settings(settings) {
         this.#settings = settings
     }
@@ -48,6 +53,7 @@ class Game {
         return this.#settings
     }
 
+    // ------ Getters -------
     get status() {
         return this.#status
     }
@@ -91,6 +97,7 @@ class Google extends Unit {
     }
 }
 
+// Generate and calculate random numbers
 class NumberUtils {
     static getRandomNumber(max) {
         return Math.floor(Math.random() * max + 1)
