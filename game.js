@@ -2,7 +2,9 @@ class Game {
     #settings = {
         gridSize: {
             columns: 4, rows: 4
-        }, googleJumpInterval: 2000
+        },
+        googleJumpInterval: 2000,
+        pointsToWin: 10
     }
     #status = 'pending'
     #googleSetIntervalId
@@ -19,6 +21,7 @@ class Game {
     constructor() {
     }
 
+
 // Generate new random coordinates
     #getRandomPosition(coordinates) {
         let newX, newY
@@ -33,6 +36,7 @@ class Game {
         return new Position(newX, newY)
     }
 
+
 // Create units for our game
     #createUnits() {
         const player1Position = this.#getRandomPosition([])
@@ -44,6 +48,7 @@ class Game {
         this.#moveGoogleToRandomPosition(true)
     }
 
+
 // Run game
     async start() {
         if (this.#status === 'pending') {
@@ -54,11 +59,20 @@ class Game {
         }
     }
 
+
 // Stop game
     async stop() {
         clearInterval(this.#googleSetIntervalId)
+        this.#status = 'stopped'
+    }
+
+
+// Finish him!
+    async #finish() {
+        clearInterval(this.#googleSetIntervalId)
         this.#status = 'finished'
     }
+
 
 // Check and create new position for Google
     #moveGoogleToRandomPosition(excludeGoogle) {
@@ -73,12 +87,14 @@ class Game {
         this.#google = new Google(this.#getRandomPosition(notCrossedPosition))
     }
 
+
 // Interval for changing google position
     #runGoogleJumpInterval() {
         this.#googleSetIntervalId = setInterval(() => {
             this.#moveGoogleToRandomPosition()
         }, this.#settings.googleJumpInterval)
     }
+
 
 // Check border next to player
     #checkBorder(player, delta) {
@@ -91,6 +107,7 @@ class Game {
         return false
     }
 
+
 // Check player next to player
     #checkOtherPlayer(movingPlayer, otherPlayer, delta) {
         if (delta.x) {
@@ -102,13 +119,20 @@ class Game {
         return false
     }
 
+
 // Check catching of Google
     #checkGoogleCatching(player) {
         if (this.#google.position.equal(player.position)) {
             this.score[player.id].points++
-            this.#moveGoogleToRandomPosition()
+            if (this.score[player.id].points === this.settings.pointsToWin) {
+                this.#finish()
+                //this.#google.position = {}
+            } else {
+                this.#moveGoogleToRandomPosition()
+            }
         }
     }
+
 
 // Method for moving players
     #movePlayer(movingPlayer, otherPlayer, delta) {
@@ -173,7 +197,12 @@ class Game {
 
 // ------ Setters -------
     set settings(settings) {
-        this.#settings = settings
+        this.#settings = {...this.#settings, ...settings}
+
+        // Prevent case with undefined inside settings.gridSize
+        this.#settings.gridSize = settings.gridSize
+            ? {...this.#settings.gridSize, ...settings.gridSize}
+            : this.#settings.gridSize
     }
 
 // ------ Getters -------
