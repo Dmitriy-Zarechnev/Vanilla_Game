@@ -185,7 +185,7 @@ describe('Tests for our cool game 😎', () => {
     })
 
     // -------------------------------------------------
-    it('caught google by player1 or player2 three times', async () => {
+    it('check player1 or player2 won', async () => {
         game.settings = {
             gridSize: {
                 columns: 3,

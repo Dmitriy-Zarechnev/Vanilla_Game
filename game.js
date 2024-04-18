@@ -151,7 +151,6 @@ class Game {
     }
 
 // --------- Player1 movement ----------------
-
 // Player1 moves to right
     movePlayer1Right() {
         this.#movePlayer(this.#player1, this.#player2, {x: 1})
@@ -173,7 +172,6 @@ class Game {
     }
 
 // --------- Player2 movement ----------------
-
 // Player2 moves to right
     movePlayer2Right() {
         this.#movePlayer(this.#player2, this.#player1, {x: 1})
