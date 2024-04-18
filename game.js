@@ -130,35 +130,21 @@ class Game {
 
 // Player1 moves to right
     movePlayer1Right() {
-        //delta = {x: 1}
-        // const isBorder = this.#checkBorder(this.#player1, delta)
-        // // we cannot pass throw border
-        // if (isBorder) return
-        //
-        // const isOtherPlayer = this.#checkOtherPlayer(this.#player1, this.#player2, delta)
-        // // we cannot pass throw other player
-        // if (isOtherPlayer) return
-        //
-        // this.#player1.position.x++
-        // this.#checkGoogleCatching(this.#player1)
         this.#movePlayer(this.#player1, this.#player2, {x: 1})
     }
 
 // Player1 moves to left
     movePlayer1Left() {
-        //delta = {x: -1}
         this.#movePlayer(this.#player1, this.#player2, {x: -1})
     }
 
 // Player1 moves to up
     movePlayer1Up() {
-        //delta = {y: -1}
         this.#movePlayer(this.#player1, this.#player2, {y: -1})
     }
 
 // Player1 moves to down
     movePlayer1Down() {
-        //delta = {y: 1}
         this.#movePlayer(this.#player1, this.#player2, {y: 1})
     }
 
@@ -166,29 +152,22 @@ class Game {
 
 // Player2 moves to right
     movePlayer2Right() {
-        // delta = {x: 1}
-        // this.#checkBorder(this.#player2)
-        // this.#checkOtherPlayer(this.#player1)
-        // this.#checkGoogleCatching(this.#player2)
         this.#movePlayer(this.#player2, this.#player1, {x: 1})
     }
 
 // Player2 moves to left
     movePlayer2Left() {
-        // delta = {x: -1}
         this.#movePlayer(this.#player2, this.#player1, {x: -1})
     }
 
 
 // Player2 moves to up
     movePlayer2Up() {
-        // delta = {y: -1}
         this.#movePlayer(this.#player2, this.#player1, {y: -1})
     }
 
 // Player2 moves to down
     movePlayer2Down() {
-        //delta = {y: 1}
         this.#movePlayer(this.#player2, this.#player1, {y: 1})
     }
 
