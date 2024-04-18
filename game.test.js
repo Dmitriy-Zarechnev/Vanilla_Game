@@ -22,7 +22,7 @@ describe('Tests for our cool game', () => {
         game.settings = {
             gridSize: {
                 columns: 1,
-                rows: 2
+                rows: 3
             }
         }
 
@@ -49,13 +49,22 @@ describe('Tests for our cool game', () => {
             await game.start()
 
             expect([1]).toContain(game.player1.position.x)
-            expect([1, 2]).toContain(game.player1.position.y)
+            expect([1, 2, 3]).toContain(game.player1.position.y)
 
             expect([1]).toContain(game.player2.position.x)
-            expect([1, 2]).toContain(game.player2.position.y)
+            expect([1, 2, 3]).toContain(game.player2.position.y)
 
-            expect(game.player1.position.x!==game.player2.position.x ||
-                game.player1.position.y!==game.player2.position.y)
+            expect([1]).toContain(game.google.position.x)
+            expect([1, 2, 3]).toContain(game.google.position.y)
+
+            expect(
+                (game.player1.position.x !== game.player2.position.x ||
+                    game.player1.position.y !== game.player2.position.y) &&
+                (game.player1.position.x !== game.google.position.x ||
+                    game.player1.position.y !== game.google.position.y) &&
+                (game.player2.position.x !== game.google.position.x ||
+                    game.player2.position.y !== game.google.position.y)
+            ).toBe(true)
         }
     })
 })
