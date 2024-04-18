@@ -8,7 +8,8 @@ beforeEach(() => {
         gridSize: {
             columns: 1,
             rows: 3
-        }
+        },
+        googleJumpInterval: 100
     }
 })
 
@@ -20,7 +21,8 @@ describe('Tests for our cool game 😎', () => {
             gridSize: {
                 columns: 4,
                 rows: 5
-            }
+            },
+            googleJumpInterval: 100
         }
 
         expect(game.settings.gridSize.columns).toBe(4)
@@ -64,4 +66,27 @@ describe('Tests for our cool game 😎', () => {
             ).toBe(true)
         }
     })
+
+    // -------------------------------------------------
+    it('check google position after jump', async () => {
+        // game start
+        await game.start()
+
+        // google.position copy
+        const prevPosition = game.google.position.clone()
+
+        await sleep(150)
+
+        expect(game.google.position).not.toEqual(prevPosition)
+
+    })
 })
+
+// Delay function
+function sleep(delay) {
+    return new Promise((res) => {
+        setTimeout(() => {
+            res()
+        }, delay)
+    })
+}

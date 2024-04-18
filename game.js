@@ -1,5 +1,11 @@
 class Game {
-    #settings
+    #settings = {
+        gridSize: {
+            columns: 4,
+            rows: 4
+        },
+        googleJumpInterval: 2000
+    }
     #status = 'pending'
 
     // List of units
@@ -75,6 +81,11 @@ class Position {
     constructor(x, y) {
         this.x = x
         this.y = y
+    }
+
+    // Use this method for creating copy
+    clone() {
+        return new Position(this.x, this.y)
     }
 }
 
