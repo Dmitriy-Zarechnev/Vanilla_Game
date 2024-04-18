@@ -1,16 +1,13 @@
 class Game {
     #settings = {
         gridSize: {
-            columns: 4,
-            rows: 4
-        },
-        googleJumpInterval: 2000
+            columns: 4, rows: 4
+        }, googleJumpInterval: 2000
     }
     #status = 'pending'
     #googleSetIntervalId
     #score = {
-        [1]: {points: 0},
-        [2]: {points: 0}
+        [1]: {points: 0}, [2]: {points: 0}
     }
 
 // List of units
@@ -83,65 +80,116 @@ class Game {
         }, this.#settings.googleJumpInterval)
     }
 
+// Check border next to player
+    #checkBorder(player, delta) {
+        if (delta.x) {
+            return player.position.x + delta.x > this.#settings.gridSize.columns || player.position.x + delta.x < 1
+        }
+        if (delta.y) {
+            return player.position.y + delta.y > this.#settings.gridSize.rows || player.position.y + delta.y < 1
+        }
+        return false
+    }
+
+// Check player next to player
+    #checkOtherPlayer(movingPlayer, otherPlayer, delta) {
+        if (delta.x) {
+            return movingPlayer.position.x + delta.x === otherPlayer.position.x
+        }
+        if (delta.y) {
+            return movingPlayer.position.y + delta.y === otherPlayer.position.y
+        }
+        return false
+    }
+
+// Check catching of Google
+    #checkGoogleCatching(player) {
+        if (this.#google.position.equal(player.position)) {
+            this.score[player.id].points++
+            this.#moveGoogleToRandomPosition()
+        }
+    }
+
+// Method for moving players
+    #movePlayer(movingPlayer, otherPlayer, delta) {
+        const isBorder = this.#checkBorder(movingPlayer, delta)
+        const isOtherPlayer = this.#checkOtherPlayer(movingPlayer, otherPlayer, delta)
+        // we cannot pass throw border or other player
+        if (isBorder || isOtherPlayer) return
+
+        if (delta.x) {
+            movingPlayer.position.x = movingPlayer.position.x + delta.x
+        } else {
+            movingPlayer.position.y = movingPlayer.position.y + delta.y
+        }
+
+        this.#checkGoogleCatching(movingPlayer)
+    }
+
 // --------- Player1 movement ----------------
 
 // Player1 moves to right
     movePlayer1Right() {
-        delta = {x: 1}
-        const isBorder = this.#checkBorder(this.#player1, delta)
-        // we cannot pass throw border
-        if (isBorder) {
-            return
-        }
-        this.#checkOtherPlayer(this.#player2)
-        this.#checkGoogleCatching(this.#player1)
+        //delta = {x: 1}
+        // const isBorder = this.#checkBorder(this.#player1, delta)
+        // // we cannot pass throw border
+        // if (isBorder) return
+        //
+        // const isOtherPlayer = this.#checkOtherPlayer(this.#player1, this.#player2, delta)
+        // // we cannot pass throw other player
+        // if (isOtherPlayer) return
+        //
+        // this.#player1.position.x++
+        // this.#checkGoogleCatching(this.#player1)
+        this.#movePlayer(this.#player1, this.#player2, {x: 1})
     }
 
 // Player1 moves to left
     movePlayer1Left() {
-        delta = {x: -1}
-
+        //delta = {x: -1}
+        this.#movePlayer(this.#player1, this.#player2, {x: -1})
     }
 
 // Player1 moves to up
     movePlayer1Up() {
-        delta = {y: -1}
-
+        //delta = {y: -1}
+        this.#movePlayer(this.#player1, this.#player2, {y: -1})
     }
 
 // Player1 moves to down
     movePlayer1Down() {
-        delta = {y: 1}
-
+        //delta = {y: 1}
+        this.#movePlayer(this.#player1, this.#player2, {y: 1})
     }
 
 // --------- Player2 movement ----------------
 
 // Player2 moves to right
     movePlayer2Right() {
-        delta = {x: 1}
-        this.#checkBorder(this.#player2)
-        this.#checkOtherPlayer(this.#player1)
-        this.#checkGoogleCatching(this.#player2)
+        // delta = {x: 1}
+        // this.#checkBorder(this.#player2)
+        // this.#checkOtherPlayer(this.#player1)
+        // this.#checkGoogleCatching(this.#player2)
+        this.#movePlayer(this.#player2, this.#player1, {x: 1})
     }
 
 // Player2 moves to left
     movePlayer2Left() {
-        delta = {x: -1}
-
+        // delta = {x: -1}
+        this.#movePlayer(this.#player2, this.#player1, {x: -1})
     }
 
 
 // Player2 moves to up
     movePlayer2Up() {
-        delta = {y: -1}
-
+        // delta = {y: -1}
+        this.#movePlayer(this.#player2, this.#player1, {y: -1})
     }
 
 // Player2 moves to down
     movePlayer2Down() {
-        delta = {y: 1}
-
+        //delta = {y: 1}
+        this.#movePlayer(this.#player2, this.#player1, {y: 1})
     }
 
 // ------ Setters -------
