@@ -83,12 +83,16 @@ class Game {
         }, this.#settings.googleJumpInterval)
     }
 
-    // --------- Player1 movement ----------------
+// --------- Player1 movement ----------------
 
 // Player1 moves to right
     movePlayer1Right() {
         delta = {x: 1}
-        this.#checkBorder(this.#player1)
+        const isBorder = this.#checkBorder(this.#player1, delta)
+        // we cannot pass throw border
+        if (isBorder) {
+            return
+        }
         this.#checkOtherPlayer(this.#player2)
         this.#checkGoogleCatching(this.#player1)
     }
@@ -96,9 +100,7 @@ class Game {
 // Player1 moves to left
     movePlayer1Left() {
         delta = {x: -1}
-        this.#checkBorder(this.#player1)
-        this.#checkOtherPlayer(this.#player2)
-        this.#checkGoogleCatching(this.#player1)
+
     }
 
 // Player1 moves to up
@@ -113,7 +115,7 @@ class Game {
 
     }
 
-    // --------- Player2 movement ----------------
+// --------- Player2 movement ----------------
 
 // Player2 moves to right
     movePlayer2Right() {
@@ -126,9 +128,7 @@ class Game {
 // Player2 moves to left
     movePlayer2Left() {
         delta = {x: -1}
-        this.#checkBorder(this.#player2)
-        this.#checkOtherPlayer(this.#player1)
-        this.#checkGoogleCatching(this.#player2)
+
     }
 
 
