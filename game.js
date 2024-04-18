@@ -8,8 +8,12 @@ class Game {
     }
     #status = 'pending'
     #googleSetIntervalId
+    #score = {
+        [1]: {points: 0},
+        [2]: {points: 0}
+    }
 
-    // List of units
+// List of units
     #player1
     #player2
     #google
@@ -18,7 +22,7 @@ class Game {
     constructor() {
     }
 
-    // Generate new random coordinates
+// Generate new random coordinates
     #getRandomPosition(coordinates) {
         let newX, newY
 
@@ -32,7 +36,7 @@ class Game {
         return new Position(newX, newY)
     }
 
-    // Create units for our game
+// Create units for our game
     #createUnits() {
         const player1Position = this.#getRandomPosition([])
         this.#player1 = new Player(1, player1Position)
@@ -43,7 +47,7 @@ class Game {
         this.#moveGoogleToRandomPosition(true)
     }
 
-    // Run game
+// Run game
     async start() {
         if (this.#status === 'pending') {
             this.#createUnits()
@@ -53,13 +57,13 @@ class Game {
         }
     }
 
-    // Stop game
+// Stop game
     async stop() {
         clearInterval(this.#googleSetIntervalId)
         this.#status = 'finished'
     }
 
-    // Check and create new position for Google
+// Check and create new position for Google
     #moveGoogleToRandomPosition(excludeGoogle) {
         let notCrossedPosition = [this.#player1.position, this.#player2.position]
 
@@ -72,19 +76,80 @@ class Game {
         this.#google = new Google(this.#getRandomPosition(notCrossedPosition))
     }
 
-    // Interval for changing google position
+// Interval for changing google position
     #runGoogleJumpInterval() {
         this.#googleSetIntervalId = setInterval(() => {
             this.#moveGoogleToRandomPosition()
         }, this.#settings.googleJumpInterval)
     }
 
-    // ------ Setters -------
+    // --------- Player1 movement ----------------
+
+// Player1 moves to right
+    movePlayer1Right() {
+        delta = {x: 1}
+        this.#checkBorder(this.#player1)
+        this.#checkOtherPlayer(this.#player2)
+        this.#checkGoogleCatching(this.#player1)
+    }
+
+// Player1 moves to left
+    movePlayer1Left() {
+        delta = {x: -1}
+        this.#checkBorder(this.#player1)
+        this.#checkOtherPlayer(this.#player2)
+        this.#checkGoogleCatching(this.#player1)
+    }
+
+// Player1 moves to up
+    movePlayer1Up() {
+        delta = {y: -1}
+
+    }
+
+// Player1 moves to down
+    movePlayer1Down() {
+        delta = {y: 1}
+
+    }
+
+    // --------- Player2 movement ----------------
+
+// Player2 moves to right
+    movePlayer2Right() {
+        delta = {x: 1}
+        this.#checkBorder(this.#player2)
+        this.#checkOtherPlayer(this.#player1)
+        this.#checkGoogleCatching(this.#player2)
+    }
+
+// Player2 moves to left
+    movePlayer2Left() {
+        delta = {x: -1}
+        this.#checkBorder(this.#player2)
+        this.#checkOtherPlayer(this.#player1)
+        this.#checkGoogleCatching(this.#player2)
+    }
+
+
+// Player2 moves to up
+    movePlayer2Up() {
+        delta = {y: -1}
+
+    }
+
+// Player2 moves to down
+    movePlayer2Down() {
+        delta = {y: 1}
+
+    }
+
+// ------ Setters -------
     set settings(settings) {
         this.#settings = settings
     }
 
-    // ------ Getters -------
+// ------ Getters -------
     get settings() {
         return this.#settings
     }
@@ -104,6 +169,10 @@ class Game {
     get google() {
         return this.#google
     }
+
+    get score() {
+        return this.#score
+    }
 }
 
 class Position {
@@ -115,6 +184,11 @@ class Position {
     // Use this method for creating copy
     clone() {
         return new Position(this.x, this.y)
+    }
+
+    // Use this method for compare positions
+    equal(otherPosition) {
+        return otherPosition.x === this.x && otherPosition.y === this.y
     }
 }
 

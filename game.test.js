@@ -1,6 +1,5 @@
 const {Game} = require('./game')
 
-
 describe('Tests for our cool game 😎', () => {
     let game
 
@@ -90,10 +89,54 @@ describe('Tests for our cool game 😎', () => {
 
         await sleep(150)
 
-        expect(game.google.position).not.toEqual(prevPosition)
+        expect(game.google.position.equal(prevPosition)).toBe(false)
+    })
 
+    // -------------------------------------------------
+    it('caught google by player1 or player2 for one row', async () => {
+        for (let i = 0; i < 10; i++) {
+            game.settings = {
+                gridSize: {
+                    columns: 3,
+                    rows: 1
+                },
+                googleJumpInterval: 100
+            }
+
+            // game start
+            await game.start()
+
+            // p1 p2 g | p1 g p2 | p2 p1 g | p2 g p1 | g p1 p2 | g p2 p1
+            const deltaForPlayer1 = game.google.position.x - game.player1.position.x
+
+            const prevGooglePosition = game.google.position.clone()
+
+            if (Math.abs(deltaForPlayer1) === 2) {
+                const deltaForPlayer2 = game.google.position.x - game.player2.position.x
+                if (deltaForPlayer2 > 0) {
+                    game.movePlayer2Right()
+                } else {
+                    game.movePlayer2Left()
+                }
+
+                expect(game.score[1].points).toBe(0)
+                expect(game.score[2].points).toBe(1)
+            } else {
+                if (deltaForPlayer1 > 0) {
+                    game.movePlayer1Right()
+                } else {
+                    game.movePlayer1Left()
+                }
+
+                expect(game.score[1].points).toBe(1)
+                expect(game.score[2].points).toBe(0)
+            }
+
+            expect(game.google.position.equal(prevGooglePosition)).toBe(false)
+        }
     })
 })
+
 
 // Delay function
 function sleep(delay) {
