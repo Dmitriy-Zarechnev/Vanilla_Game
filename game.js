@@ -134,7 +134,9 @@ export class Game {
                 this.#finish()
                 this.#google.position = new Position(this.#settings.gridSize.columns + 1, this.#settings.gridSize.rows + 1)
             } else {
+                clearInterval(this.#googleSetIntervalId)
                 this.#moveGoogleToRandomPosition()
+                this.#runGoogleJumpInterval()
             }
         }
     }
@@ -152,9 +154,7 @@ export class Game {
                 movingPlayer.position.x + delta.x,
                 movingPlayer.position.y
             )
-            //movingPlayer.position.x = movingPlayer.position.x + delta.x
         } else {
-            //movingPlayer.position.y = movingPlayer.position.y + delta.y
             movingPlayer.position = new Position(
                 movingPlayer.position.x,
                 movingPlayer.position.y + delta.y
