@@ -18,7 +18,8 @@ export class Game {
     #google
 
 
-    constructor() {
+    constructor(eventEmitter) {
+        this.eventEmitter = eventEmitter
     }
 
 
@@ -85,7 +86,9 @@ export class Game {
 
         // Create new Google position
         this.#google = new Google(this.#getRandomPosition(notCrossedPosition))
-        //eventEmitter.emit('unitChangePosition')
+
+        // Notice subscribers
+        this.eventEmitter.emit('unitChangePosition')
     }
 
 
@@ -149,7 +152,9 @@ export class Game {
         }
 
         this.#checkGoogleCatching(movingPlayer)
-        //eventEmitter.emit('unitChangePosition')
+
+        // Notice subscribers
+        this.eventEmitter.emit('unitChangePosition')
     }
 
 // --------- Player1 movement ----------------

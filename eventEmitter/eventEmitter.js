@@ -5,11 +5,11 @@ export class EventEmitter {
     }
 
     addEventListener(eventName, callback) {
-        subscribe(eventName, callback)
+        this.subscribe(eventName, callback)
     }
 
     on(eventName, callback) {
-        subscribe(eventName, callback)
+        this.subscribe(eventName, callback)
     }
 
     subscribe(eventName, callback) {
@@ -30,8 +30,8 @@ export class EventEmitter {
     }
 
     // Call all subscribers
-    emit(eventName) {
-        this.#subscribers[eventName].forEach(el => el())
+    emit(eventName, data = null) {
+        this.#subscribers[eventName]?.forEach(el => el(data))
     }
 
     // unsubscribe
