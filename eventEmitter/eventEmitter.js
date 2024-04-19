@@ -20,10 +20,24 @@ export class EventEmitter {
 
         // Add new subscriber
         this.#subscribers[eventName].push(callback)
+
+        // unsubscribe
+        return ()=>{
+            this.#subscribers[eventName] = this.#subscribers[eventName].filter(el => {
+                return callback !== el
+            })
+        }
     }
 
     // Call all subscribers
     emit(eventName) {
         this.#subscribers[eventName].forEach(el => el())
+    }
+
+    // unsubscribe
+    off(eventName, callback) {
+        this.#subscribers[eventName] = this.#subscribers[eventName].filter(el => {
+            return callback !== el
+        })
     }
 }

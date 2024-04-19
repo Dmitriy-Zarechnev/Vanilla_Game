@@ -85,6 +85,7 @@ class Game {
 
         // Create new Google position
         this.#google = new Google(this.#getRandomPosition(notCrossedPosition))
+        //eventEmitter.emit('unitChangePosition')
     }
 
 
@@ -148,6 +149,7 @@ class Game {
         }
 
         this.#checkGoogleCatching(movingPlayer)
+        //eventEmitter.emit('unitChangePosition')
     }
 
 // --------- Player1 movement ----------------
