@@ -56,6 +56,36 @@ const asyncStart = async () => {
         }
     }
 
+    // Event for clicking keyboard key's
+    window.addEventListener('keydown', (e) => {
+        switch (e.code) {
+            case 'ArrowUp':
+                game.movePlayer1Up()
+                break
+            case 'ArrowDown':
+                game.movePlayer1Down()
+                break
+            case 'ArrowRight':
+                game.movePlayer1Right()
+                break
+            case 'ArrowLeft':
+                game.movePlayer1Left()
+                break
+            case 'KeyW':
+                game.movePlayer2Up()
+                break
+            case 'KeyS':
+                game.movePlayer2Down()
+                break
+            case 'KeyD':
+                game.movePlayer2Right()
+                break
+            case 'KeyA':
+                game.movePlayer2Left()
+                break
+        }
+    })
+
     // Add event unitChangePosition and render function
     game.eventEmitter.on('unitChangePosition', () => {
         render()

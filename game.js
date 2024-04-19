@@ -102,25 +102,39 @@ export class Game {
 
 // Check border next to player
     #checkBorder(player, delta) {
-        if (delta.x) {
-            return player.position.x + delta.x > this.#settings.gridSize.columns || player.position.x + delta.x < 1
+        const newPosition = player.position.clone()
+        if (delta.x) newPosition.x += delta.x
+        if (delta.y) newPosition.y += delta.y
+
+        if (newPosition.x < 1 || newPosition.x > this.#settings.gridSize.columns) {
+            return true
         }
-        if (delta.y) {
-            return player.position.y + delta.y > this.#settings.gridSize.rows || player.position.y + delta.y < 1
+        if (newPosition.y < 1 || newPosition.y > this.#settings.gridSize.rows) {
+            return true
         }
+        // if (delta.x) {
+        //     return player.position.x + delta.x > this.#settings.gridSize.columns || player.position.x + delta.x < 1
+        // }
+        // if (delta.y) {
+        //     return player.position.y + delta.y > this.#settings.gridSize.rows || player.position.y + delta.y < 1
+        // }
         return false
     }
 
 
 // Check player next to player
     #checkOtherPlayer(movingPlayer, otherPlayer, delta) {
-        if (delta.x) {
-            return movingPlayer.position.x + delta.x === otherPlayer.position.x
-        }
-        if (delta.y) {
-            return movingPlayer.position.y + delta.y === otherPlayer.position.y
-        }
-        return false
+        const newPosition = movingPlayer.position.clone()
+        if (delta.x) newPosition.x += delta.x
+        if (delta.y) newPosition.y += delta.y
+        return otherPlayer.position.equal(newPosition)
+        // if (delta.x) {
+        //     return movingPlayer.position.x + delta.x === otherPlayer.position.x
+        // }
+        // if (delta.y) {
+        //     return movingPlayer.position.y + delta.y === otherPlayer.position.y
+        // }
+        // return false
     }
 
 
@@ -146,9 +160,17 @@ export class Game {
         if (isBorder || isOtherPlayer) return
 
         if (delta.x) {
-            movingPlayer.position.x = movingPlayer.position.x + delta.x
+            movingPlayer.position = new Position(
+                movingPlayer.position.x + delta.x,
+                movingPlayer.position.y
+            )
+            //movingPlayer.position.x = movingPlayer.position.x + delta.x
         } else {
-            movingPlayer.position.y = movingPlayer.position.y + delta.y
+            //movingPlayer.position.y = movingPlayer.position.y + delta.y
+            movingPlayer.position = new Position(
+                movingPlayer.position.x,
+                movingPlayer.position.y + delta.y
+            )
         }
 
         this.#checkGoogleCatching(movingPlayer)
