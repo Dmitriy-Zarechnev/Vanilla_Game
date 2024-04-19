@@ -17,10 +17,22 @@ const asyncStart = async () => {
     // Find table from index.html
     const tableElement = document.querySelector('#grid')
 
+    // Find scores from index.html
+    const scoresElement = document.querySelector('#scores')
+
+
+
     // App logic function
     const render = () => {
         // Remove previous elements from table
         tableElement.innerHTML = ''
+        // Remove previous scores
+        scoresElement.innerHTML = ''
+
+
+        // Add scores with teg
+        scoresElement.append(`player1: ${game.score[1].points} - player2: ${game.score[2].points}`)
+
         for (let y = 1; y <= game.settings.gridSize.rows; y++) {
             // Create row in table
             const trElement = document.createElement('tr')

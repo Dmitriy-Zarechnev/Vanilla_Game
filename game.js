@@ -112,12 +112,7 @@ export class Game {
         if (newPosition.y < 1 || newPosition.y > this.#settings.gridSize.rows) {
             return true
         }
-        // if (delta.x) {
-        //     return player.position.x + delta.x > this.#settings.gridSize.columns || player.position.x + delta.x < 1
-        // }
-        // if (delta.y) {
-        //     return player.position.y + delta.y > this.#settings.gridSize.rows || player.position.y + delta.y < 1
-        // }
+
         return false
     }
 
@@ -128,13 +123,6 @@ export class Game {
         if (delta.x) newPosition.x += delta.x
         if (delta.y) newPosition.y += delta.y
         return otherPlayer.position.equal(newPosition)
-        // if (delta.x) {
-        //     return movingPlayer.position.x + delta.x === otherPlayer.position.x
-        // }
-        // if (delta.y) {
-        //     return movingPlayer.position.y + delta.y === otherPlayer.position.y
-        // }
-        // return false
     }
 
 
@@ -144,7 +132,7 @@ export class Game {
             this.score[player.id].points++
             if (this.score[player.id].points === this.settings.pointsToWin) {
                 this.#finish()
-                //this.#google.position = {}
+                this.#google.position = new Position(this.#settings.gridSize.columns + 1, this.#settings.gridSize.rows + 1)
             } else {
                 this.#moveGoogleToRandomPosition()
             }
