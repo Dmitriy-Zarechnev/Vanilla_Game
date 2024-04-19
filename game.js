@@ -1,4 +1,4 @@
-class Game {
+export class Game {
     #settings = {
         gridSize: {
             columns: 4, rows: 4
@@ -276,6 +276,6 @@ class NumberUtils {
 
 
 // Import for tests
-module.exports = {
-    Game
-}
+// module.exports = {
+//     Game
+// }
