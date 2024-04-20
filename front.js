@@ -21,9 +21,11 @@ const asyncStart = async () => {
     const scoresElement = document.querySelector('#scores')
 
 
+    let renderCounter = 0
+
 
     // App logic function
-    const render = async () => {
+    const render = async (counter) => {
         // Remove previous elements from table
         tableElement.innerHTML = ''
         // Remove previous scores
@@ -31,11 +33,19 @@ const asyncStart = async () => {
 
         // Get properties from Game
         const score = await game.getScore()
+        if (counter < renderCounter) return
 
         const settings = await game.getSettings()
+        if (counter < renderCounter) return
+
         const google = await game.getGoogle()
+        if (counter < renderCounter) return
+
         const player1 = await game.getPlayer1()
+        if (counter < renderCounter) return
+
         const player2 = await game.getPlayer2()
+        if (counter < renderCounter) return
 
 
         // Add scores with teg
@@ -108,10 +118,11 @@ const asyncStart = async () => {
 
     // Add event unitChangePosition and render function
     game.eventEmitter.on('unitChangePosition', () => {
-        render()
+        renderCounter++
+        render(renderCounter)
     })
 
-    render()
+    render(renderCounter)
 }
 
 // Start front App
