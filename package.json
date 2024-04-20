@@ -5,7 +5,8 @@
   "main": "game.js",
   "type": "module",
   "scripts": {
-    "test": "yarn jest"
+    "test": "yarn jest",
+    "server start": "node ./back/server.js"
   },
   "repository": {
     "type": "git",

@@ -23,24 +23,32 @@ const asyncStart = async () => {
 
 
     // App logic function
-    const render = () => {
+    const render = async () => {
         // Remove previous elements from table
         tableElement.innerHTML = ''
         // Remove previous scores
         scoresElement.innerHTML = ''
 
+        // Get properties from Game
+        const score = await game.getScore()
+
+        const settings = await game.getSettings()
+        const google = await game.getGoogle()
+        const player1 = await game.getPlayer1()
+        const player2 = await game.getPlayer2()
+
 
         // Add scores with teg
-        scoresElement.append(`player1: ${game.score[1].points} - player2: ${game.score[2].points}`)
+        scoresElement.append(`player1: ${score[1].points} - player2: ${score[2].points}`)
 
-        for (let y = 1; y <= game.settings.gridSize.rows; y++) {
+        for (let y = 1; y <= settings.gridSize.rows; y++) {
             // Create row in table
             const trElement = document.createElement('tr')
-            for (let x = 1; x <= game.settings.gridSize.columns; x++) {
+            for (let x = 1; x <= settings.gridSize.columns; x++) {
                 // Create column in table
                 const tdElement = document.createElement('td')
                 // Add google unit into field
-                if (game.google.position.x === x && game.google.position.y === y) {
+                if (google.position.x === x && google.position.y === y) {
                     // Create img teg
                     const googleUnit = document.createElement('img')
                     // Add src for img
@@ -49,13 +57,13 @@ const asyncStart = async () => {
                     tdElement.appendChild(googleUnit)
                 }
                 // Add player1 unit into field
-                if (game.player1.position.x === x && game.player1.position.y === y) {
+                if (player1.position.x === x && player1.position.y === y) {
                     const player1Unit = document.createElement('img')
                     player1Unit.src = './assets/player1.svg'
                     tdElement.appendChild(player1Unit)
                 }
                 // Add player2 unit into field
-                if (game.player2.position.x === x && game.player2.position.y === y) {
+                if (player2.position.x === x && player2.position.y === y) {
                     const player2Unit = document.createElement('img')
                     player2Unit.src = './assets/player2.svg'
                     tdElement.appendChild(player2Unit)

@@ -129,10 +129,11 @@ export class Game {
 // Check catching of Google
     #checkGoogleCatching(player) {
         if (this.#google.position.equal(player.position)) {
-            this.score[player.id].points++
-            if (this.score[player.id].points === this.settings.pointsToWin) {
+            this.#score[player.id].points++
+            if (this.#score[player.id].points === this.#settings.pointsToWin) {
                 this.#finish()
-                this.#google.position = new Position(this.#settings.gridSize.columns + 1, this.#settings.gridSize.rows + 1)
+                this.#google.position = new Position(-1, -1)
+                //this.#google.position = new Position(this.#settings.gridSize.columns + 1, this.#settings.gridSize.rows + 1)
             } else {
                 clearInterval(this.#googleSetIntervalId)
                 this.#moveGoogleToRandomPosition()
@@ -211,7 +212,7 @@ export class Game {
     }
 
 // ------ Setters -------
-    set settings(settings) {
+    async setSettings(settings) {
         this.#settings = {...this.#settings, ...settings}
 
         // Prevent case with undefined inside settings.gridSize
@@ -221,27 +222,27 @@ export class Game {
     }
 
 // ------ Getters -------
-    get settings() {
+    async getSettings() {
         return this.#settings
     }
 
-    get status() {
+    async getStatus() {
         return this.#status
     }
 
-    get player1() {
+    async getPlayer1() {
         return this.#player1
     }
 
-    get player2() {
+    async getPlayer2() {
         return this.#player2
     }
 
-    get google() {
+    async getGoogle() {
         return this.#google
     }
 
-    get score() {
+    async getScore() {
         return this.#score
     }
 }
